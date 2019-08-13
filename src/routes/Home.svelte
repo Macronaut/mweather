@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
 
-    let date, weather;
+    let date, data, text;
 
     onMount(() => {
         const key = '554e9dc1d2e3e0ff2fedbe769b0a9288',
@@ -9,9 +9,13 @@
 
         date = moment().format("L");
         
-        fetch('https://api.openweathermap.org/data/2.5/weather?id=' + ID + '&appid=' + key + '&units=metric')
+        fetch('https://api.openweathermap.org/data/2.5/weather?id=' + ID + '&appid=' + key + '&units=metric&lang=pt')
         .then($result => { return $result.json() })
-        .then($data => { weather = $data.main })
+        .then($data => { 
+            data = $data;            
+            const desc = $data.weather[0].description;
+            text = desc.substr(0,1).toUpperCase() + desc.substr(1, desc.length);
+        })
         .catch($error => { console.log("$error :: " + $error) });
     })
 
@@ -19,35 +23,35 @@
 
 <section class="component-home">
     <div class="columns">
-        <div class="column">
-            <div class="box">
-                { #if date } <p class="has-text-white is-size-5"> Clima ~ { date } </p> { /if }
-                <p class="has-text-white is-size-4">São Paulo</p>
-                { #if weather }
-                    <hr>
-                    <div class="columns is-vcentered has-text-white has-text-centered">                    
-                        <div class="column is-6">
-                            <p class="is-size-3">Atual</p>
-                            <p class="is-size-2"> <span class="has-text-weight-bold"> { weather.temp } </span> C° </p>
-                        </div>
-                        <div class="column is-6">
-                            <div class="columns">
-                                <div class="column">
-                                    <p class="is-size-3">Min</p>
-                                    <p class="is-size-2"> <span class="has-text-weight-bold"> { weather.temp_min } </span> C°</p>
-                                </div>                                
-                            </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <p class="is-size-3">Max</p>
-                                    <p class="is-size-2"> <span class="has-text-weight-bold"> { weather.temp_max } </span> C° </p>
-                                </div>
+        <div class="column">           
+            { #if !data } <p class="is-size-3 has-text-white has-text-centered"> Carregando... </p> { /if }
+            { #if data }
+                <article class="message">
+                    <div class="message-header"><p> Santo André ~ { date } </p></div>
+                    <div class="message-body has-text-centered has-text-white">                    
+                        <div class="columns">
+                            <div class="column">
+                                <p class="is-size-5"> { text } </p>
                             </div>
                         </div>
+                        <hr>
+                        <div class="columns">
+                            <div class="column">
+                                <p> Min </p>
+                                <p> <span class="is-size-3 has-text-weight-bold"> { data.main.temp_min } </span> C°</p>
+                            </div>
+                            <div class="column">
+                                <p> Atual </p>
+                                <p> <span class="is-size-3 has-text-weight-bold"> { data.main.temp } </span> C°</p>
+                            </div>
+                            <div class="column">
+                                <p> Max </p>
+                                <p> <span class="is-size-3 has-text-weight-bold"> { data.main.temp_max } </span> C°</p>
+                            </div>
+                        </div>                    
                     </div>
-                    
-                { /if }
-            </div>
+                </article>
+            { /if }
         </div>
     </div>
 
