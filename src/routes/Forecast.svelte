@@ -37,7 +37,8 @@
 </style>
 
 <section class="component-forecast">
-    <p class="is-size-5 has-text-white">Santo André</p>
+    <hr>
+    <p class="is-size-4 has-text-white">Santo André</p>
     <hr>
     { #if !weather } <p class="is-size-3 has-text-white has-text-centered"> Carregando... </p> { /if }
     { #if weather }
