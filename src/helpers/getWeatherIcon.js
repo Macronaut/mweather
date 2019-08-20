@@ -10,6 +10,8 @@ export default $param_id => {
         src = path + "017-rain.png";
     } else if ($param_id >= 600 && $param_id <= 622) { // Neve
         src = path + "018-snowflake.png";
+    } else if ($param_id >= 701 && $param_id <= 781) { // Enevoado
+        src = path + "049-cloudy.png";
     } else if ($param_id == 800) { // Limpo
         src = path + "013-sun.png";
     } else if ($param_id >= 801 && $param_id <= 804) { // Nublado
