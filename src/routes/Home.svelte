@@ -9,6 +9,11 @@
         ID = 3449701;
 
         date = moment().format("L");
+
+        fetch('http://dataservice.accuweather.com/forecasts/v1/daily/5day/45882?apikey=cbG1GEvR8LtCMgE8eY0nHUr9exdtQjaw&language=pt-br')
+        .then($result => { debugger })
+        .then($result => { debugger })
+        .catch(error => console.log(`Erro ${error}`))
         
         fetch('https://api.openweathermap.org/data/2.5/weather?id=' + ID + '&appid=' + key + '&units=metric&lang=pt')
         .then($result => { return $result.json() })
